@@ -19,7 +19,7 @@ class CreateAllTables extends Migration
 
             $table->string('name')->default('');
             $table->date('start_date');
-            $table->date('end_date');
+            $table->date('end_date')->nullable();
         });
 
         Schema::create('divisions', function (Blueprint $table) {
