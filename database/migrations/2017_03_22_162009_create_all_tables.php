@@ -39,7 +39,7 @@ class CreateAllTables extends Migration
           $table->string('slug')->default('');
           
           $table->integer('division_id')->unsigned()->default(0);
-          $table->foreign('division_id')->references('id')->on('division_id');
+          $table->foreign('division_id')->references('id')->on('division');
         });
 
         Schema::create('results', function (Blueprint $table) {
@@ -51,17 +51,20 @@ class CreateAllTables extends Migration
           $table->integer('draw')->default(0);
           $table->integer('mov')->default(0);
 
-          $table->integer('season_id')->unsigned()->default(0);
-          $table->foreign('season_id')->references('id')->on('seasons');
           $table->integer('player_id')->unsigned()->default(0);
           $table->foreign('player_id')->references('id')->on('players');
+          
+          $table->integer('season_id')->unsigned()->default(0);
+          $table->foreign('season_id')->references('id')->on('seasons');
+          $table->integer('division_id')->unsigned()->default(0);
+          $table->foreign('division_id')->references('id')->on('division');
         });
 
         Schema::create('matches', function (Blueprint $table) {
           $table->increments('id');
           $table->timestamps();
 
-          $table->date('date-played');
+          $table->date('date_played');
           $table->integer('player_one_score');
           $table->integer('player_two_score');
           
@@ -69,6 +72,7 @@ class CreateAllTables extends Migration
           $table->foreign('player_one_id')->references('id')->on('players');
           $table->integer('player_two_id')->unsigned()->default(0);
           $table->foreign('player_two_id')->references('id')->on('players');
+
           $table->integer('season_played')->unsigned()->default(0);
           $table->foreign('season_played')->references('id')->on('seasons');
         });
