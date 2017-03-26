@@ -20,3 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::resource('divisions', 'DivisionsController', 
   ['except' => ['create', 'edit']]
 );
+
+Route::resource('divisions.players', 'PlayersController', 
+  ['except' => ['create', 'edit']]
+);
