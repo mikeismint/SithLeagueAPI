@@ -19,7 +19,7 @@ class PlayersController extends Controller
     try {
       $response['Players'] = Player::where('division_id', '=', $division->id)->get();
       $status = 200;
-    
+
     } catch(Exception $e) {
       $response = $e->getMessage();
       $status = 400;
@@ -33,7 +33,7 @@ class PlayersController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
   public function store(Request $request) {
 
@@ -55,7 +55,7 @@ class PlayersController extends Controller
      *
      * @param  \App\Player    $player
      * @param  \App\Division  $division
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
   public function show(Division $division, Player $player){
     if($player->division_id == $division->id) {
@@ -74,9 +74,9 @@ class PlayersController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Player    $player
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
      */
   public function update(Request $request, Division $division, Player $player) {
     try {
@@ -90,11 +90,11 @@ class PlayersController extends Controller
 
       $response = $player;
       $status = 200;
-    
+
     } catch(Exception $e) {
       $response = $e->getMessage();
       $status = 400;
-    
+
     } finally {
       return new JsonResponse($response, $status);
     }
@@ -105,7 +105,7 @@ class PlayersController extends Controller
      *
      * @param  \App\Player    $player
      * @param  \App\Division  $division
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
   public function destroy(Division $division, Player $player) {
     try {
@@ -113,7 +113,7 @@ class PlayersController extends Controller
         $player->delete();
         $response = null;
         $status = 204;
-      
+
       } else {
         $response = "Player " . $player->name . " is not in division " . $division->name;
         $status = 400;

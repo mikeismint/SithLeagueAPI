@@ -14,12 +14,19 @@ class Division extends Model
   public function players() {
     return $this->hasMany('App\Player');
   }
-  
+
   /*
    * Define One-to-Many relationship with App\Match
    */
   public function matches() {
     return $this->hasMany('App\Match');
+  }
+
+  /*
+   * Define One-to-Many relationship with App\Result
+   */
+  public function results() {
+    return $this->hasMany('App\Result');
   }
 
   /*

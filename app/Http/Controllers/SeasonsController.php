@@ -43,7 +43,7 @@ class SeasonsController extends Controller
     } catch (Exception $e) {
       $response = $e->getMessage();
       $status = 400;
-    
+
     } finally {
       return new JsonResponse($response, $status);
     }
@@ -70,20 +70,20 @@ class SeasonsController extends Controller
   public function update(Request $request, Season $season) {
     try {
       $update = $request->all();
-      
+
       foreach($update as $key => $value) {
         $season[$key] = $value;
     }
-    
+
     $season->save();
-    
+
     $response = $season;
     $status = 200;
 
     } catch (Exception $e) {
       $response = $e->getMessage();
       $status = 400;
-    
+
     } finally {
       return new JsonResponse($response, $status);
     }

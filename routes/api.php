@@ -21,10 +21,18 @@ Route::resource('seasons', 'SeasonsController',
   ['except' => ['create', 'edit']]
 );
 
-Route::resource('divisions', 'DivisionsController', 
+Route::resource('divisions', 'DivisionsController',
   ['except' => ['create', 'edit']]
 );
 
-Route::resource('divisions.players', 'PlayersController', 
+Route::resource('divisions.results', 'ResultsController',
+  ['except' => ['create', 'edit', 'store', 'update', 'destroy']]
+);
+
+Route::resource('divisions.players', 'PlayersController',
   ['except' => ['create', 'edit']]
+);
+
+Route::resource('divisions.players.results', 'ResultsController',
+  ['except' => ['create', 'edit', 'store', 'update', 'destroy']]
 );

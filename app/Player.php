@@ -16,6 +16,13 @@ class Player extends Model {
   }
 
   /*
+   * Define One-To-Many relationship
+   */
+  public function results() {
+    return $this->hasMany('App\Result');
+  }
+
+  /*
    * Use slug as URL
    */
   public function getRouteKeyName() {
