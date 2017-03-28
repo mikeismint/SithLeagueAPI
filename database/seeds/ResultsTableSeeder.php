@@ -13,6 +13,10 @@ class ResultsTableSeeder extends Seeder
     DB::table('results')->delete();
 
     $results = array(
+      ['player_id' => 1, 'season_id' => 1, 'division_id' => 2,
+      'win' => 2, 'loss' => 0, 'mov' => 350, 'points' => 4,
+      'created_at' => new DateTime, 'updated_at' => new DateTime],
+      
       ['player_id' => 1, 'season_id' => 2, 'division_id' => 1,
       'win' => 1, 'loss' => 1, 'mov' => 150, 'points' => 5,
       'created_at' => new DateTime, 'updated_at' => new DateTime],

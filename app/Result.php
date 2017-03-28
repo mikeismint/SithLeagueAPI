@@ -22,7 +22,7 @@ class Result extends Model {
 
   public function addLoss(int $mov) {
     $this->loss++;
-    $mov = 100 - $mov; 
+    $mov = 100 - $mov;
     $this->mov = $this->mov + $mov;
     $this->points += 1;
     $this->save();

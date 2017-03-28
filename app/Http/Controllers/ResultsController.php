@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use App\Result;
 use App\Player;
 use App\Division;
+use App\Season;
 
 class ResultsController extends Controller
 {
@@ -18,12 +19,25 @@ class ResultsController extends Controller
      * @param Player   App\Player
      * @return \Illuminate\Http\JsonResponse
      */
-  public function index(Division $division, Player $player = null) {
+  public function index(Division $division, Season $season, Player $player = null) {
     try {
       if(isset($player->id)) {
         $response['results'] = Result::where('player_id', '=', $player->id)->get();
+
+        foreach($response['results'] as $result) {
+          $result['season'] = $result->season;
+          $result['division'] = $result->division;
+        }
+
       } else {
-        $response['results'] = Result::where('division_id', '=', $division->id)->get();
+        $response['results'] = Result::where([
+          ['division_id', '=', $division->id],
+          ['season_id', '=', $season->id],
+        ])->get();
+
+        foreach($response['results'] as $result) {
+          $result['player'] = $result->player;
+        }
       }
 
       $status = 200;

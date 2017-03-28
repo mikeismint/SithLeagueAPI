@@ -25,7 +25,7 @@ Route::resource('divisions', 'DivisionsController',
   ['except' => ['create', 'edit']]
 );
 
-Route::resource('divisions.results', 'ResultsController',
+Route::resource('divisions.seasons.results', 'ResultsController',
   ['except' => ['create', 'edit', 'store', 'update', 'destroy']]
 );
 
