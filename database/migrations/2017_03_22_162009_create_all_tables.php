@@ -34,6 +34,7 @@ class CreateAllTables extends Migration
         Schema::create('players', function (Blueprint $table) {
           $table->increments('id');
           $table->timestamps();
+          $table->softDeletes();
 
           $table->string('name')->default('');
           $table->string('slug')->default('');

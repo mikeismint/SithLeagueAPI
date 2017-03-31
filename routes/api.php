@@ -25,6 +25,10 @@ Route::resource('divisions', 'DivisionsController',
   ['except' => ['create', 'edit']]
 );
 
+Route::resource('players', 'PlayersController',
+  ['except' => ['create', 'edit']]
+);
+
 Route::resource('matches', 'MatchesController',
   ['except' => ['create', 'edit']]
 );

@@ -13,15 +13,22 @@ class PlayersController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * Lists all players with api\players
+     * Lists players by division with api\division\{division}\players
+     *
      * @return \Illuminate\Http\JsonResponse
      */
   public function index(Division $division) {
     try {
-      $response['Players'] = Player::where('division_id', '=', $division->id)->get();
+      if(isset($division->id)) {
+        $response['players'] = Player::where('division_id', $division->id)->get();
+      } else {
+        $response['players'] = Player::with('division')->get();
+      }
       $status = 200;
 
     } catch(Exception $e) {
-      $response = $e->getMessage();
+      $response['message'] = $e->getMessage();
       $status = 400;
 
     } finally {
@@ -33,16 +40,19 @@ class PlayersController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\JsonResponse returns newly created player object
      */
   public function store(Request $request) {
 
     try {
-      $response = Player::create($request->all());
+      $response['player'] = Player::create($request->all());
+      if(!isset($response['player']->slug)) {
+        $response['player']->slug = str_slug($response['player']->name, '-');
+      }
       $status = 200;
 
     } catch(Exception $e) {
-      $response = $e->getMessage();
+      $response['message'] = $e->getMessage();
       $status = 400;
 
     } finally {
@@ -53,19 +63,22 @@ class PlayersController extends Controller
     /**
      * Display the specified resource.
      *
+     * Resolves links to App\Division, App\Results and App\Match
+     *
      * @param  \App\Player    $player
      * @param  \App\Division  $division
      * @return \Illuminate\Http\JsonResponse
      */
   public function show(Division $division, Player $player){
-    if($player->division_id == $division->id) {
+    if(!isset($division->id) || $player->division_id == $division->id) {
       $response['player'] = $player;
       $response['player']['division'] = $player->division;
       $response['player']['matches'] = $player->hasmatches();
+      $response['player']['results'] = $player->results;
 
       $status = 200;
     } else {
-      $response = "Player " . $player->name . " is not in division " . $division->name;
+      $response['message'] = "Player " . $player->name . " is not in division " . $division->name;
       $status = 400;
     }
 
@@ -76,8 +89,9 @@ class PlayersController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Player    $player
+     * @param  \App\Division    $division
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\JsonResponse returns updated player object
      */
   public function update(Request $request, Division $division, Player $player) {
     try {
@@ -87,13 +101,12 @@ class PlayersController extends Controller
         $player[$key] = $value;
       }
 
-      $player->save();
-
-      $response = $player;
+      $response['updated'] = $player->save();
+      $response['player'] = $player;
       $status = 200;
 
     } catch(Exception $e) {
-      $response = $e->getMessage();
+      $response['message'] = $e->getMessage();
       $status = 400;
 
     } finally {
@@ -110,17 +123,17 @@ class PlayersController extends Controller
      */
   public function destroy(Division $division, Player $player) {
     try {
-      if($player->division_id == $division->id) {
-        $response = $player->delete(); 
+      if(!isset($division->id) || $player->division_id == $division->id) {
+        $response['deleted'] = $player->delete();
         $status = 204;
 
       } else {
-        $response = "Player " . $player->name . " is not in division " . $division->name;
+        $response['message'] = "Player " . $player->name . " is not in division " . $division->name;
         $status = 400;
       }
 
     } catch(Exception $e) {
-      $response = $e->getMessage();
+      $response['message'] = $e->getMessage();
       $status = 400;
 
     } finally {

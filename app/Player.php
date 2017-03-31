@@ -3,20 +3,23 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Player extends Model {
 
-  protected $guarded = [];
+  use SoftDeletes;
+
+  protected $guarded = ['id'];
 
   /*
-   * Define many-to-one realtionship
+   * Define many-to-one relationship with App\Division
    */
   public function division() {
     return $this->belongsTo('App\Division');
   }
 
   /*
-   * Define One-To-Many relationship
+   * Define One-To-Many relationship App\Result
    */
   public function results() {
     return $this->hasMany('App\Result');
