@@ -6,21 +6,23 @@ use Illuminate\Database\Eloquent\Model;
 
 class Result extends Model {
 
-  public function addWin(int $mov) {
+  protected $guarded = [];
+
+  public function addWin($mov) {
     $this->win++;
     $mov += 100; $this->mov += $mov;
     $this->points += 4;
     $this->save();
   }
 
-  public function removeWin(int $mov) {
+  public function removeWin($mov) {
     $this->win--;
     $mov += 100; $this->mov -= $mov;
     $this->points -= 4;
     $this->save();
   }
 
-  public function addLoss(int $mov) {
+  public function addLoss($mov) {
     $this->loss++;
     $mov = 100 - $mov;
     $this->mov = $this->mov + $mov;
@@ -28,7 +30,7 @@ class Result extends Model {
     $this->save();
   }
 
-  public function removeLoss(int $mov) {
+  public function removeLoss($mov) {
     $this->loss--;
     $mov = 100 - $mov;
     $this->mov = $this->mov - $mov;

@@ -14,4 +14,11 @@ class Season extends Model
   public function results() {
     return $this->hasMany('App\Result');
   }
+
+  /**
+   * Define One-To-Many relationships with App\Match
+   */
+  public function matches() {
+    return $this->hasMany('App\Match');
+  }
 }

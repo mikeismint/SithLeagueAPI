@@ -73,10 +73,12 @@ class CreateAllTables extends Migration
           $table->integer('player_two_id')->unsigned()->default(0);
           $table->foreign('player_two_id')->references('id')->on('players');
 
-          $table->integer('season_played')->unsigned()->default(0);
-          $table->foreign('season_played')->references('id')->on('seasons');
-        });
+          $table->integer('season_id')->unsigned()->default(0);
+          $table->foreign('season_id')->references('id')->on('seasons');
 
+          $table->integer('division_id')->unsigned()->default(0);
+          $table->foreign('division_id')->references('id')->on('divisions');
+        });
     }
 
     /**

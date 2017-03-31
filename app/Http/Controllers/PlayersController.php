@@ -61,6 +61,7 @@ class PlayersController extends Controller
     if($player->division_id == $division->id) {
       $response['player'] = $player;
       $response['player']['division'] = $player->division;
+      $response['player']['matches'] = $player->hasmatches();
 
       $status = 200;
     } else {
@@ -110,8 +111,7 @@ class PlayersController extends Controller
   public function destroy(Division $division, Player $player) {
     try {
       if($player->division_id == $division->id) {
-        $player->delete();
-        $response = null;
+        $response = $player->delete(); 
         $status = 204;
 
       } else {
