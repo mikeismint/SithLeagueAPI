@@ -37,6 +37,12 @@ class Match extends Model {
       $mov = $match->player_two_score - $match->player_one_score;
     }
 
+    /**
+     * Creates a new Result record for the $winner for this $season.
+     * Adds the results of this match.
+     * If Results already exist for this season then this matches result is
+     * added to it
+     */
     if(is_null($winner->results->where('season_id', $match->season_id)->first())) {
       $winner->results()->create([
         'player_id' => $winner->id,
@@ -48,6 +54,12 @@ class Match extends Model {
         ->addWin($mov);
     }
 
+    /**
+     * Creates a new Result record for the $loser for this $season.
+     * Adds the results of this match.
+     * If Results already exist for this season then this matches result is
+     * added to it
+     */
     if(is_null($loser->results->where('season_id', $match->season_id)->first())) {
       $loser->results()->create([
         'player_id' => $loser->id,
